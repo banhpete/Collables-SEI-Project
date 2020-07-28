@@ -10,4 +10,6 @@ router.get('/test', (req, res, next) => {
 
 router.post('/signup', usersCtrl.createUser)
 
+router.post('/login', usersCtrl.loginUser)
+
 module.exports = router

@@ -18,6 +18,21 @@ function signUp(user) {
     })
 }
 
+function logIn(user) {
+  return fetch(
+    BASE_URL + 'login', {
+    method: "POST",
+    headers: new Headers({ 'Content-Type': 'application/json' }),
+    body: JSON.stringify(user)
+  }
+  ).then((res) => {
+    if (res.ok) return res.json()
+    throw new Error("Invalid Credentials")
+  }).then(({ token }) => {
+    setToken(token)
+  })
+}
+
 function getUser() {
   let token = getToken()
   console.log(token)
@@ -28,4 +43,4 @@ function logOut() {
   localStorage.removeItem('token')
 }
 
-export { signUp, getUser, logOut } 
+export { signUp, getUser, logOut, logIn } 

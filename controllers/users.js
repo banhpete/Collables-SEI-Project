@@ -27,4 +27,21 @@ function createUser(req, res, next) {
     )
 }
 
-module.exports = { createUser }
+function loginUser(req, res, next) {
+  User.findOne({ username: req.body.username })
+    .then((user) => {
+      user.comparePassword(req.body.password, (err, isMatch) => {
+        if (isMatch) {
+          const token = createJWT(user)
+          res.json({ token })
+        } else {
+          return res.status(401).json({ err: 'bad credentials' });
+        }
+      })
+    })
+    .catch((err) => {
+      return res.status(401).json(err)
+    })
+}
+
+module.exports = { createUser, loginUser }
