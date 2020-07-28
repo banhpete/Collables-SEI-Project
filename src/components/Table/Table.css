@@ -1,0 +1,26 @@
+.collable{
+  border:1px solid black;
+  margin:10px;
+}
+
+.noselect{
+  user-select:none
+}
+
+.collable-row{
+  display:flex;
+  flex-direction:row;
+  justify-content: space-around;
+}
+
+.collable-row div{
+  position:relative;
+  flex-grow:1;
+  text-align:center;
+  border: 1px solid black;
+  width:100%;
+}
+
+.selected{
+  color:red
+}
