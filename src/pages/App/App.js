@@ -18,42 +18,6 @@ class App extends React.Component {
     ]
   }
 
-  colSwap = (selectedCol, shiftingCol) => {
-    console.log('Selected Col ', selectedCol)
-    console.log('Shifting Col ', shiftingCol)
-    console.log('In App')
-    // Creating the new order of the array
-    let newOrder = [];
-    for (let i = 0; i < this.state.data[0].length; i++) {
-      newOrder.push(i)
-    }
-    let i = selectedCol
-    while (i != shiftingCol) {
-      if (selectedCol < shiftingCol) {
-        newOrder[i] = newOrder[i + 1]
-        i++
-      } else {
-        newOrder[i] = newOrder[i - 1]
-        i--
-      }
-    }
-    newOrder[i] = selectedCol
-    console.log(newOrder)
-    // Based on the new order create new array with the Columns swapped
-    let newArr = this.state.data.map((row, idx) => {
-      let newRow = []
-      for (let i = 0; i < row.length; i++) {
-        newRow.push(row[newOrder[i]])
-      }
-      return newRow
-    })
-    // Use the new array as state
-    this.setState({
-      data: newArr
-    })
-    return;
-  }
-
   handleLogout = () => {
     logOut();
     this.setState({
@@ -90,7 +54,7 @@ class App extends React.Component {
           }} />
           <Route path="/" render={(props) => {
             return (
-              <TablePage data={this.state.data} handleColSwap={this.colSwap} />
+              <TablePage data={this.state.data} />
             )
           }} />
         </Switch>

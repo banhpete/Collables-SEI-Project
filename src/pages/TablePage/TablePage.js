@@ -6,7 +6,7 @@ class TablePage extends React.Component {
     return (
       <div>
         <h2>Table Page</h2>
-        <Table data={this.props.data} handleColSwap={this.props.handleColSwap} />
+        <Table data={this.props.data} />
       </div>
 
     )
