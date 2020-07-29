@@ -1,8 +1,11 @@
 import React from 'react';
 import './App.css';
-import SignUpPage from '../SignUpPage/SignUpPage'
-import LoginPage from '../LoginPage/LoginPage'
+import SignUpPage from '../AuthPages/SignUpPage'
+import LoginPage from '../AuthPages/LoginPage'
 import TablePage from '../TablePage/TablePage'
+import HomePage from '../HomePage/HomePage'
+import Header from '../../components/Header/Header'
+import Footer from '../../components/Footer/Footer'
 import { Route, Link, Switch } from 'react-router-dom'
 import { getUser, logOut } from '../../utils/userServices'
 
@@ -18,7 +21,8 @@ class App extends React.Component {
     ]
   }
 
-  handleLogout = () => {
+  handleLogout = (e) => {
+    e.preventDefault();
     logOut();
     this.setState({
       username: null
@@ -34,13 +38,7 @@ class App extends React.Component {
   render() {
     return (
       <div className='App'>
-        <header className='App-header'>
-          <h1>Collables</h1>
-          {this.state.username ?
-            <><p>Hi {this.state.username}</p><button onClick={this.handleLogout}>Log out</button></> :
-            <><Link to="/signup">Sign Up</Link> <Link to="/login">Log In</Link></>
-          }
-        </header>
+        <Header username={this.state.username} handleLogout={this.handleLogout}></Header>
         <Switch>
           <Route exact path="/signup" render={(props) => {
             return (
@@ -52,12 +50,18 @@ class App extends React.Component {
               <LoginPage {...props} handleSignupOrLogin={this.handleSignupOrLogin} />
             )
           }} />
-          <Route path="/" render={(props) => {
+          <Route path="/tables" render={(props) => {
             return (
               <TablePage data={this.state.data} />
             )
           }} />
+          <Route path="/" render={(props) => {
+            return (
+              <HomePage username={this.state.username} />
+            )
+          }} />
         </Switch>
+        <Footer></Footer>
       </div>
     )
   }

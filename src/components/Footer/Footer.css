@@ -1,0 +1,12 @@
+.Footer-container {
+  padding:10px;
+  background-color: var(--main-color);
+  height:40px;
+  color:white;
+  text-align:center;
+}
+
+.Footer-container p {
+  font-size: 12px;
+  margin:0 0 0 5px;
+}
