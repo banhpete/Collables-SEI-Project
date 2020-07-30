@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import SignUpPage from '../AuthPages/SignUpPage'
 import LoginPage from '../AuthPages/LoginPage'
-import TablePage from '../TablePage/TablePage'
+import TablesPage from '../TablesPage/TablesPage'
 import CreateTablePage from '../CreateTablePage/CreateTablePage'
 import HomePage from '../HomePage/HomePage'
 import Header from '../../components/Header/Header'
@@ -13,13 +13,17 @@ import { getUser, logOut } from '../../utils/userServices'
 class App extends React.Component {
   state = {
     username: getUser(),
-    data: [
+    userTables: [],
+    recentTables: [],
+    sharedTables: [],
+    tableID: null,
+    tableData: [
       [null, 'header 1', 'header 2', 'header 3', 'header 4'],
       ['row 1', 'info on row 1-header 1', 'info on row 1-header 2', 'info on row 1-header 3', 'info on row 1-header 4'],
       ['row 2', 'info on row 2-header 1', 'info on row 2-header 2', 'info on row 2-header 3', 'info on row 2-header 4'],
       ['row 3', 'info on row 3-header 1', 'info on row 3-header 2', 'info on row 3-header 3', 'info on row 3-header 4'],
       ['row 4', 'info on row 4-header 1', 'info on row 4-header 2', 'info on row 4-header 3', 'info on row 4-header 4'],
-    ]
+    ],
   }
 
   handleLogout = (e) => {
@@ -38,7 +42,7 @@ class App extends React.Component {
 
   updateTableData = (newTableData) => {
     this.setState({
-      data: newTableData
+      tableData: newTableData
     })
   }
 
@@ -59,7 +63,7 @@ class App extends React.Component {
           }} />
           <Route path="/tables" render={(props) => {
             return (
-              <TablePage data={this.state.data} />
+              <TablesPage />
             )
           }} />
           <Route path="/createtable" render={(props) => {

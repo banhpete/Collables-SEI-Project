@@ -21,8 +21,16 @@ const userSchema = new Schema({
     unique: true,
     match: [/\S+@\S+\.\S+/, 'is invalid']
   },
-  tables: {
+  userTables: {
     type: [Schema.Types.ObjectId],
+    select: false
+  },
+  sharedTables: {
+    type: [Schema.Types.ObjectId],
+    select: false
+  },
+  recentTables: {
+    type: [String],
     select: false
   }
 }, {

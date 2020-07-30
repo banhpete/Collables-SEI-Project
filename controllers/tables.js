@@ -22,7 +22,7 @@ function createTable(req, res, next) {
                   user.tables.push(table._id)
                   user.save()
                     .then(() => {
-                      return res.json(JSON.parse(table.data))
+                      return res.json(JSON.parse(table.tableData))
                     })
                 })
             })

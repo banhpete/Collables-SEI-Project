@@ -6,10 +6,10 @@ var tableSchema = new Schema({
   ssURL: String,
   sheetName: String,
   dataRange: String,
-  data: String,
+  tableData: String,
 },
   {
-    imestamps: true
+    timestamps: true
   }
 )
 

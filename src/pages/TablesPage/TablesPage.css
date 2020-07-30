@@ -1,0 +1,38 @@
+.Tables-Page-Container{
+  flex-grow:1;
+  display:flex;
+  flex-direction:column;
+  justify-content: center;
+  align-items:center;
+  background:var(--background-color);
+}
+
+.Tables-Page-Main{
+  border-radius:4px;
+  width:650px;
+  height: 90%;
+  background-color: white;
+  box-shadow: var(--shadow);
+}
+
+.Tables-Page-Main > h2{
+  margin:5px 10px 10px 10px;
+}
+
+.Tables-Page-Main > h3{
+  margin:5px 10px 5px 10px;
+}
+
+.Tables-Page-Row{
+  margin:15px 13px 20px 13px;
+  display:flex;
+  justify-content: space-between;
+  flex-direction:row;
+}
+
+.Tables-Page-Card{
+  border-radius: 4px;
+  border:1px solid black;
+  height:70px;
+  width:150px;
+}
