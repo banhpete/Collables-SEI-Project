@@ -1,6 +1,6 @@
-const BASE_URL = '/api/tables';
+const BASE_URL = '/api/table';
 
-function createTable(table) {
+function createTable(tableData) {
   return fetch(
     BASE_URL,
     {
@@ -8,14 +8,14 @@ function createTable(table) {
       headers: new Headers({
         'Content-Type': 'application/json'
       }),
-      body: JSON.stringify(table)
+      body: JSON.stringify(tableData)
     }
   )
     .then((res) => {
-      if (res.ok) return res.json()
-      throw new Error('Invalid Inputs')
+      return res.json()
     })
     .then((data) => {
+      console.log(data)
       return data
     })
 }

@@ -4,8 +4,8 @@ import { createTable } from '../../utils/tableServices'
 
 class CreateTablePage extends React.Component {
   state = {
-    collableName: "",
-    ssID: "",
+    tableName: "",
+    ssURL: "",
     sheetName: "",
     dataRange: "",
     errMsg: ""
@@ -18,7 +18,9 @@ class CreateTablePage extends React.Component {
       this.setState({ errMsg: err })
       return;
     }
-    createTable(this.state).then((data) => console.log(data))
+    createTable({ ...this.state, username: this.props.username })
+      .then((data) => console.log(data))
+      .catch((err) => { return console.log(JSON.stringify(err, Object.getOwnPropertyNames(err))) })
   }
 
   handleChange = (e) => {
@@ -28,14 +30,24 @@ class CreateTablePage extends React.Component {
   }
 
   formHasErr = () => {
+    // Check if any empty boxes
     if (!
-      (this.state.collableName &&
-        this.state.ssID &&
+      (this.state.tableName &&
+        this.state.ssURL &&
         this.state.sheetName &&
         this.state.dataRange)
     ) return "Please Ensure All Boxes are Filled"
 
-    if (!this.state.dataRange.includes(':')) return "Please Ensure Data Range Uses the A1 notation"
+    let regex = new RegExp(/^[a-z]+[0-9]+:[a-z]+[0-9]+$/i)
+    if (!regex.test(this.state.dataRange)) return "Please Ensure Data Range Uses the A1 notation"
+
+    let urlParts = this.state.ssURL.split('/')
+    if (!urlParts[urlParts.length - 2]) return "Please Ensure You Have Enterd the URL Correctly"
+    else if (urlParts[urlParts.length - 2].length < 25) return "Please Ensure You Have Enterd the URL Correctly"
+
+    this.setState({
+      errMsg: ''
+    })
 
     return false;
   }
@@ -49,11 +61,11 @@ class CreateTablePage extends React.Component {
           {errMsg}
           <div className="Create-Table-Form-Row">
             <label>Give Your Collable a Name:</label>
-            <input name="collableName" type="text" value={this.state.collableName} onChange={this.handleChange} />
+            <input name="tableName" type="text" value={this.state.tableName} onChange={this.handleChange} />
           </div>
           <div className="Create-Table-Form-Row">
-            <label>ID of Google Spreadsheet Collable Will Use:</label>
-            <input name="ssID" type="text" value={this.state.ssID} onChange={this.handleChange} />
+            <label>URL of Google Spreadsheet Collable Will Use:</label>
+            <input name="ssURL" type="text" value={this.state.ssURL} onChange={this.handleChange} />
           </div>
           <div className="Create-Table-Form-Row">
             <label>Name of Sheet Collable will Use:</label>

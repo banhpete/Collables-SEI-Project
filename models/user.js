@@ -20,6 +20,10 @@ const userSchema = new Schema({
     lowercase: true,
     unique: true,
     match: [/\S+@\S+\.\S+/, 'is invalid']
+  },
+  tables: {
+    type: [Schema.Types.ObjectId],
+    select: false
   }
 }, {
   timestamps: true

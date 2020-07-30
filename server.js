@@ -15,7 +15,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // API Routes
-app.use('/api/users', require('./routes/api/users'));
+app.use('/api/user', require('./routes/api/users'));
+app.use('/api/table', require('./routes/api/table'));
 
 // Serving React App
 

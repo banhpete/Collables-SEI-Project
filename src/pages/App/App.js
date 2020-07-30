@@ -58,7 +58,7 @@ class App extends React.Component {
           }} />
           <Route path="/createtable" render={(props) => {
             return (
-              <CreateTablePage />
+              <CreateTablePage username={this.state.username} />
             )
           }} />
           <Route path="/" render={(props) => {
