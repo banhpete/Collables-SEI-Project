@@ -9,8 +9,8 @@ function Header(props) {
       <div className="nav">
         {props.username ?
           <>
-            <Link to="/createtable">Create New Table</Link>
-            <Link to="/tables">See Tables</Link>
+            <Link to="/createtable">Create New Collable</Link>
+            <Link to="/tables">See Collables</Link>
             <a href='#' onClick={props.handleLogout}>Log Out</a>
           </> :
           <>
