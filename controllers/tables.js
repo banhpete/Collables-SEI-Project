@@ -12,8 +12,7 @@ function createTable(req, res, next) {
       let range = req.body.sheetName + "!" + req.body.dataRange
       gsrun(client, ssID, range)
         .then((data) => {
-          console.log(req.body.username)
-          User.findOne({ username: req.body.username }).select('+tables')
+          User.findOne({ username: req.user.username }).select('+tables')
             .then((user) => {
               if (!user) throw new Error()
               req.body.data = data;
@@ -28,11 +27,11 @@ function createTable(req, res, next) {
                 })
             })
             .catch((err) => {
-              return res.status(500).json({ msg: "Cannot find user" })
+              return res.status(500).json({ errMsg: "Cannot find user." })
             })
         })
         .catch((err) => {
-          return res.status(400).json({ msg: "Inputs for Spreadsheet are not valid" })
+          return res.status(400).json({ errMsg: "Inputs for Spreadsheet are not valid. Try Again." })
         })
     }
   })

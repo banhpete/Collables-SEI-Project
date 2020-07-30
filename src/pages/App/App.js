@@ -7,7 +7,7 @@ import CreateTablePage from '../CreateTablePage/CreateTablePage'
 import HomePage from '../HomePage/HomePage'
 import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer'
-import { Route, Link, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import { getUser, logOut } from '../../utils/userServices'
 
 class App extends React.Component {
@@ -36,6 +36,12 @@ class App extends React.Component {
     })
   }
 
+  updateTableData = (newTableData) => {
+    this.setState({
+      data: newTableData
+    })
+  }
+
   render() {
     return (
       <div className='App'>
@@ -58,14 +64,18 @@ class App extends React.Component {
           }} />
           <Route path="/createtable" render={(props) => {
             return (
-              <CreateTablePage username={this.state.username} />
+              getUser() ?
+                <CreateTablePage {...props} updateTableData={this.updateTableData} /> :
+                <Redirect to={{
+                  pathname: '/login',
+                  state: { errMsg: "Try logging in first maybe..." }
+                }} />
             )
           }} />
-          <Route path="/" render={(props) => {
-            return (
-              <HomePage username={this.state.username} />
-            )
-          }} />
+          <Route path="/" render={(props) => (
+
+            <HomePage username={this.state.username} />
+          )} />
         </Switch>
         <Footer></Footer>
       </div>

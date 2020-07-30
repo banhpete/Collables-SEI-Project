@@ -1,3 +1,4 @@
+import { getToken } from './tokenServices'
 const BASE_URL = '/api/table';
 
 function createTable(tableData) {
@@ -6,7 +7,8 @@ function createTable(tableData) {
     {
       method: 'POST',
       headers: new Headers({
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + getToken()
       }),
       body: JSON.stringify(tableData)
     }
@@ -15,7 +17,7 @@ function createTable(tableData) {
       return res.json()
     })
     .then((data) => {
-      console.log(data)
+      if (data.errMsg) throw data.errMsg
       return data
     })
 }

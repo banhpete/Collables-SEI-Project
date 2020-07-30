@@ -11,6 +11,13 @@ class LoginPage extends React.Component {
     errMsg: ""
   }
 
+  componentDidMount = () => {
+    if (this.props.location.state) {
+      this.setState({ errMsg: this.props.location.state.errMsg })
+    }
+    return;
+  }
+
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value

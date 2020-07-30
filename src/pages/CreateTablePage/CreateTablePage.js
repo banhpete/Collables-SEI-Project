@@ -18,9 +18,12 @@ class CreateTablePage extends React.Component {
       this.setState({ errMsg: err })
       return;
     }
-    createTable({ ...this.state, username: this.props.username })
-      .then((data) => console.log(data))
-      .catch((err) => { return console.log(JSON.stringify(err, Object.getOwnPropertyNames(err))) })
+    createTable(this.state)
+      .then((data) => {
+        this.props.updateTableData(data)
+        this.props.history.push('/')
+      })
+      .catch((err) => { this.setState({ errMsg: err }) })
   }
 
   handleChange = (e) => {
