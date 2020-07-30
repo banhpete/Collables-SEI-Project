@@ -4,15 +4,16 @@
     flex-direction:column;
     justify-content: center;
     align-items:center;
+    background-color: var(--background-color);
 }
 
 .Auth-Page-Form{
   display:flex;
   flex-direction:column;
   align-items:center;
-  background-color: #fafafa;
+  background-color: white;
   padding:10px;
-  box-shadow: 6px 6px 12px 2px rgba(133,133,133,1);
+  box-shadow: var(--shadow);
 }
 
 .Auth-Page-Form h2{

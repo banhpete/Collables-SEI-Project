@@ -3,6 +3,7 @@ import './App.css';
 import SignUpPage from '../AuthPages/SignUpPage'
 import LoginPage from '../AuthPages/LoginPage'
 import TablePage from '../TablePage/TablePage'
+import CreateTablePage from '../CreateTablePage/CreateTablePage'
 import HomePage from '../HomePage/HomePage'
 import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer'
@@ -53,6 +54,11 @@ class App extends React.Component {
           <Route path="/tables" render={(props) => {
             return (
               <TablePage data={this.state.data} />
+            )
+          }} />
+          <Route path="/createtable" render={(props) => {
+            return (
+              <CreateTablePage />
             )
           }} />
           <Route path="/" render={(props) => {

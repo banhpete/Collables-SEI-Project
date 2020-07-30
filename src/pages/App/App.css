@@ -1,6 +1,8 @@
 :root {
   --main-color: #21A464;
   --secondary-color: #257a51;
+  --background-color: #f1f1f1;
+  --shadow:5px 10px 20px -15px; 
 }
 
 *{
