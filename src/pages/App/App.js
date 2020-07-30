@@ -30,7 +30,20 @@ class App extends React.Component {
     e.preventDefault();
     logOut();
     this.setState({
-      username: null
+      username: "",
+      userTables: [],
+      recentTables: [],
+      sharedTables: [],
+      tableID: null,
+      tableData: [
+        [null, 'header 1', 'header 2', 'header 3', 'header 4'],
+        ['row 1', 'info on row 1-header 1', 'info on row 1-header 2', 'info on row 1-header 3', 'info on row 1-header 4'],
+        ['row 2', 'info on row 2-header 1', 'info on row 2-header 2', 'info on row 2-header 3', 'info on row 2-header 4'],
+        ['row 3', 'info on row 3-header 1', 'info on row 3-header 2', 'info on row 3-header 3', 'info on row 3-header 4'],
+        ['row 4', 'info on row 4-header 1', 'info on row 4-header 2', 'info on row 4-header 3', 'info on row 4-header 4'],
+      ],
+    }, () => {
+      return this.props.history.push('/')
     })
   }
 
@@ -63,7 +76,12 @@ class App extends React.Component {
           }} />
           <Route path="/tables" render={(props) => {
             return (
-              <TablesPage />
+              getUser() ?
+                <TablesPage /> :
+                <Redirect to={{
+                  pathname: '/login',
+                  state: { errMsg: "Try logging in first maybe..." }
+                }} />
             )
           }} />
           <Route path="/createtable" render={(props) => {
