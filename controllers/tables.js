@@ -10,7 +10,9 @@ function createTable(req, res, next) {
       let urlParts = req.body.ssURL.split('/')
       let ssID = urlParts[urlParts.length - 2]
       let range = req.body.sheetName + "!" + req.body.dataRange
+      // Run Google API to grab spreadsheet data
       gsrun(client, ssID, range)
+        // If google API is successful, find if user exists. 
         .then((data) => {
           User.findOne({ username: req.user.username }).select('+userTables')
             .then((user) => {
@@ -21,7 +23,11 @@ function createTable(req, res, next) {
                   user.userTables.push(table._id)
                   user.save()
                     .then(() => {
-                      return res.json(JSON.parse(table.tableData))
+                      return res.json({
+                        tableID: table._id,
+                        tableData: JSON.parse(table.tableData),
+                        tableName: table.tableName
+                      })
                     })
                 })
             })
@@ -29,6 +35,7 @@ function createTable(req, res, next) {
               return res.status(500).json({ errMsg: "Cannot find user." })
             })
         })
+        // If google API failed, then the user given invalid inputs.
         .catch((err) => {
           return res.status(400).json({ errMsg: "Inputs for Spreadsheet are not valid. Try Again." })
         })

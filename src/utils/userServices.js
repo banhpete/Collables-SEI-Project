@@ -33,14 +33,13 @@ function logIn(user) {
   })
 }
 
-function getUser() {
+function getUserData() {
   let token = getToken()
-  console.log(token)
-  return token ? JSON.parse(atob(token.split('.')[1])).user.username : null
+  return token ? JSON.parse(atob(token.split('.')[1])).user : null
 }
 
 function logOut() {
   localStorage.removeItem('token')
 }
 
-export { signUp, getUser, logOut, logIn } 
+export { signUp, getUserData, logOut, logIn } 

@@ -8,22 +8,27 @@ import HomePage from '../HomePage/HomePage'
 import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer'
 import { Route, Switch, Redirect } from 'react-router-dom'
-import { getUser, logOut } from '../../utils/userServices'
+import { getUserData, logOut } from '../../utils/userServices'
 
 class App extends React.Component {
-  state = {
-    username: getUser(),
-    userTables: [],
-    recentTables: [],
-    sharedTables: [],
-    tableID: null,
-    tableData: [
-      [null, 'header 1', 'header 2', 'header 3', 'header 4'],
-      ['row 1', 'info on row 1-header 1', 'info on row 1-header 2', 'info on row 1-header 3', 'info on row 1-header 4'],
-      ['row 2', 'info on row 2-header 1', 'info on row 2-header 2', 'info on row 2-header 3', 'info on row 2-header 4'],
-      ['row 3', 'info on row 3-header 1', 'info on row 3-header 2', 'info on row 3-header 3', 'info on row 3-header 4'],
-      ['row 4', 'info on row 4-header 1', 'info on row 4-header 2', 'info on row 4-header 3', 'info on row 4-header 4'],
-    ],
+  constructor(props) {
+    super(props);
+    let userData = getUserData()
+
+    this.state = {
+      username: userData ? userData.username : null,
+      userTables: userData ? userData.userTables : [],
+      recentTables: userData ? userData.recentTables : [],
+      sharedTables: userData ? userData.sharedTables : [],
+      tableID: null,
+      tableData: [
+        [null, 'header 1', 'header 2', 'header 3', 'header 4'],
+        ['row 1', 'info on row 1-header 1', 'info on row 1-header 2', 'info on row 1-header 3', 'info on row 1-header 4'],
+        ['row 2', 'info on row 2-header 1', 'info on row 2-header 2', 'info on row 2-header 3', 'info on row 2-header 4'],
+        ['row 3', 'info on row 3-header 1', 'info on row 3-header 2', 'info on row 3-header 3', 'info on row 3-header 4'],
+        ['row 4', 'info on row 4-header 1', 'info on row 4-header 2', 'info on row 4-header 3', 'info on row 4-header 4'],
+      ],
+    }
   }
 
   handleLogout = (e) => {
@@ -48,14 +53,22 @@ class App extends React.Component {
   }
 
   handleSignupOrLogin = () => {
+    let userData = getUserData()
     this.setState({
-      username: getUser()
+      username: userData.username,
+      userTables: userData.userTables,
+      recentTables: userData.recentTables,
+      sharedTables: userData.sharedTables,
     })
   }
 
-  updateTableData = (newTableData) => {
+  createTableUpdate = (data) => {
+    let userTablesCopy = [...this.state.userTables]
+    userTablesCopy.push({ _id: data.tableID, tableName: data.tableName })
     this.setState({
-      tableData: newTableData
+      tableID: data.tableID,
+      tableData: data.tableData,
+      userTables: userTablesCopy
     })
   }
 
@@ -76,8 +89,8 @@ class App extends React.Component {
           }} />
           <Route path="/tables" render={(props) => {
             return (
-              getUser() ?
-                <TablesPage /> :
+              getUserData() ?
+                <TablesPage userTables={this.state.userTables} recentTables={this.state.userTables} sharedTables={this.state.sharedTables} /> :
                 <Redirect to={{
                   pathname: '/login',
                   state: { errMsg: "Try logging in first maybe..." }
@@ -86,8 +99,8 @@ class App extends React.Component {
           }} />
           <Route path="/createtable" render={(props) => {
             return (
-              getUser() ?
-                <CreateTablePage {...props} updateTableData={this.updateTableData} /> :
+              getUserData() ?
+                <CreateTablePage {...props} createTableUpdate={this.createTableUpdate} /> :
                 <Redirect to={{
                   pathname: '/login',
                   state: { errMsg: "Try logging in first maybe..." }

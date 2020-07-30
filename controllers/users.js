@@ -28,7 +28,7 @@ function createUser(req, res, next) {
 }
 
 function loginUser(req, res, next) {
-  User.findOne({ username: req.body.username })
+  User.findOne({ username: req.body.username }).populate('userTables', 'tableName').populate('sharedTables', 'tableName')
     .then((user) => {
       user.comparePassword(req.body.password, (err, isMatch) => {
         if (isMatch) {
