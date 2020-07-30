@@ -21,14 +21,16 @@ function createTable(req, res, next) {
               Table.create(req.body)
                 .then((table) => {
                   user.userTables.push(table._id)
-                  user.save()
-                    .then(() => {
-                      return res.json({
-                        tableID: table._id,
-                        tableData: JSON.parse(table.tableData),
-                        tableName: table.tableName
+                  user.updateRecent('u' + (user.userTables.length - 1), () => {
+                    return user.save()
+                      .then(() => {
+                        return res.json({
+                          tableID: table._id,
+                          tableData: JSON.parse(table.tableData),
+                          tableName: table.tableName
+                        })
                       })
-                    })
+                  })
                 })
             })
             .catch((err) => {

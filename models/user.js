@@ -45,15 +45,37 @@ userSchema.set('toJSON', {
 userSchema.pre('save', function (next) {
   // 'this' will be set to the current document
   const user = this;
-  if (!user.isModified('password')) return next();
-  // password has been changed - salt and hash it
-  bcrypt.hash(user.password, SALT_ROUNDS, function (err, hash) {
-    if (err) return next(err);
-    // replace the user provided password with the hash
-    user.password = hash;
-    next();
-  });
+
+  // Hash Password when user is first saved or if password is changed
+  if (user.isModified('password')) {
+    // password has been changed - salt and hash it
+    bcrypt.hash(user.password, SALT_ROUNDS, function (err, hash) {
+      if (err) return next(err);
+      // replace the user provided password with the hash
+      user.password = hash;
+      return next();
+    });
+  }
+
+  return next();
 });
+
+userSchema.methods.updateRecent = function (tableIdx, cb) {
+  let currentIdx = this.recentTables.findIndex((ele) => ele === tableIdx)
+  if (currentIdx !== -1) {
+    this.recentTables.splice(currentIdx, 1)
+    this.recentTables.push(tableIdx)
+  } else {
+    if (this.recentTables.length === 4) {
+      this.recentTables.shift();
+      this.recentTables.push(tableIdx);
+    } else {
+      this.recentTables.push(tableIdx);
+    }
+  }
+
+  cb()
+}
 
 userSchema.methods.comparePassword = function (tryPassword, cb) {
   // 'this' represents the document that you called comparePassword on
