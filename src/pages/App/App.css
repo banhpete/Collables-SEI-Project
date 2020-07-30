@@ -30,3 +30,8 @@
   cursor:pointer;
   background-color: var(--secondary-color);
 }
+
+.btn:disabled{
+  background-color: #a1a1a1;
+  cursor: default;
+}

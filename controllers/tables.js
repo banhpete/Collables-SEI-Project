@@ -12,14 +12,13 @@ function createTable(req, res, next) {
       let range = req.body.sheetName + "!" + req.body.dataRange
       gsrun(client, ssID, range)
         .then((data) => {
-          User.findOne({ username: req.user.username }).select('+tables')
+          User.findOne({ username: req.user.username }).select('+userTables')
             .then((user) => {
               if (!user) throw new Error()
-              req.body.data = data;
+              req.body.tableData = data;
               Table.create(req.body)
                 .then((table) => {
-                  console.log(user)
-                  user.tables.push(table._id)
+                  user.userTables.push(table._id)
                   user.save()
                     .then(() => {
                       return res.json(JSON.parse(table.tableData))

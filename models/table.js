@@ -13,4 +13,4 @@ var tableSchema = new Schema({
   }
 )
 
-module.exports = mongoose.model('Collable', tableSchema)
+module.exports = mongoose.model('Table', tableSchema)
