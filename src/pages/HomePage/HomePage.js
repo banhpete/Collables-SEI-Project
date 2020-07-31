@@ -7,15 +7,15 @@ function HomePage(props) {
   if (!props.username) {
     buttons = (
       <>
-        <Link className="btn">Log In</Link>
-        <Link className="btn">Sign up</Link>
+        <Link to='/login' className="btn">Log In</Link>
+        <Link to='/signup' className="btn">Sign up</Link>
       </>
     )
   } else {
     buttons = (
       <>
-        <Link className="btn">Create New Table</Link>
-        <Link className="btn">See Tables</Link>
+        <Link to='/createtable' className="btn">Create New Table</Link>
+        <Link to='/tables' className="btn">See Tables</Link>
       </>
     )
   }
