@@ -169,7 +169,7 @@ class Table extends React.Component {
 
     let tableheaders = <div key="header" className="collable-row">
       {this.props.data[0].map((header, idx) => {
-        if (!header) return <div key="empty"></div>
+        if (idx === 0) return <div key="empty">{header}</div>
         return (
           <div
             ref={el => {

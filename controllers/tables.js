@@ -63,7 +63,18 @@ async function gsrun(cl, ssID, range) {
 
   try {
     let res = await gsapi.spreadsheets.values.get(opt);
-    return (JSON.stringify(res.data.values));
+    let rowLength = 0;
+    res.data.values.forEach((r) => {
+      if (r.length > rowLength) rowLength = r.length;
+      return;
+    })
+    let tableData = res.data.values.map((r) => {
+      while (r.length < rowLength) {
+        r.push('')
+      }
+      return r
+    })
+    return (JSON.stringify(tableData));
   } catch{
     throw new Error()
   }
