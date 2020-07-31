@@ -22,7 +22,6 @@ class CreateTablePage extends React.Component {
     createTable(this.state)
       .then((data) => {
         this.props.createTableUpdate(data)
-        this.props.history.push('/')
       })
       .catch((err) => { console.log(err) })
   }

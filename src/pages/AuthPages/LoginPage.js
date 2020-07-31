@@ -39,7 +39,7 @@ class LoginPage extends React.Component {
   }
 
   render() {
-    let errMsg = this.state.errMsg ? <p>{this.state.errMsg}</p> : null
+    let errMsg = this.state.errMsg ? <p className="Form-Error">{this.state.errMsg}</p> : null
     return (
       <div className="Auth-Page-Container">
         <form className="Auth-Page-Form" onSubmit={this.handleSubmit}>

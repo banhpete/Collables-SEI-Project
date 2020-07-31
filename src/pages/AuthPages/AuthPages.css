@@ -28,3 +28,9 @@
 .Auth-Page-Formrow > *{
   margin:8px;
 }
+
+.Form-Error{
+  color:red;
+  margin:5px 10px;
+  padding:0px;
+}

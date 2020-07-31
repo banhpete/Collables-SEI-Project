@@ -36,8 +36,11 @@ class TablePage extends React.Component {
     e.preventDefault()
     shareTable(this.props.match.params.tableID, this.state.username, this.props.tableName)
       .then((data) => {
-        if (data.errMsg) return this.setState({ errMsg: data.errMsg })
-        this.setState({ msg: "Complete" })
+        return this.setState({ msg: "Complete" })
+      })
+      .catch((errMsg) => {
+        console.log(errMsg)
+        return this.setState({ errMsg: errMsg })
       })
   }
 

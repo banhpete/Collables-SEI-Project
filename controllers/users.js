@@ -43,7 +43,6 @@ function loginUser(req, res, next) {
 }
 
 function getUserData(req, res, next) {
-  console.log('hi')
   User.findOne({ username: req.user.username }).populate('userTables', 'tableName').populate('sharedTables', 'tableName')
     .then((user) => {
       if (!user) return res.status(401).json({ errMsg: 'Username not found' })

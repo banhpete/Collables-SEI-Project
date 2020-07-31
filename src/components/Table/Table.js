@@ -4,7 +4,6 @@ import './Table.css';
 class Table extends React.Component {
   // Get Order Of An Array 
   getOrder = (arr) => {
-    console.log(arr)
     let numOfRows = arr.length;
     let order = [];
     for (let i = 0; i < numOfRows; i++) {
@@ -124,7 +123,6 @@ class Table extends React.Component {
 
   // Handle Row Swap
   handeMouseEnterRow = (e) => {
-    console.log('Row Swap')
     var rect = e.target.getBoundingClientRect();
     this.setState({
       offset_x: rect.left,
@@ -132,8 +130,6 @@ class Table extends React.Component {
     })
     let selectedRow = parseInt(this.state.rowSelected)
     let shiftingRow = parseInt(e.target.getAttribute('index'))
-    console.log('selectedrow', selectedRow)
-    console.log('shiftingrow', shiftingRow)
     let arrCopy = [...this.props.rowOrder]
     arrCopy = arrCopy.map((row, idx) => {
       if (idx === selectedRow) return this.props.rowOrder[shiftingRow]
