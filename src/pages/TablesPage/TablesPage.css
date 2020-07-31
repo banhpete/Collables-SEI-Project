@@ -13,6 +13,7 @@
   height: 90%;
   background-color: white;
   box-shadow: var(--shadow);
+  overflow:auto;
 }
 
 .Tables-Page-Main > h2{
@@ -26,12 +27,12 @@
 .Tables-Page-Row{
   margin:15px 13px 20px 13px;
   display:flex;
-  justify-content: space-between;
   flex-direction:row;
+  flex-wrap: wrap;
 }
 
 .Tables-Page-Row > p{
-  margin:0
+  margin:0px 8px;
 }
 
 .Tables-Page-Card{
@@ -39,8 +40,9 @@
   background-color:var(--main-color);
   color:white;
   padding:5px;
+  margin:5px 8px;
   height:70px;
-  width:150px;
+  width:135px;
 }
 
 .Tables-Page-Card:hover{
