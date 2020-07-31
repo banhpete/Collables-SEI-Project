@@ -8,26 +8,37 @@ import HomePage from '../HomePage/HomePage'
 import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer'
 import { Route, Switch, Redirect } from 'react-router-dom'
-import { getUserData, logOut } from '../../utils/userServices'
+import { getUserData, logOut, getUser } from '../../utils/userServices'
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    let userData = getUserData()
+  state = {
+    username: getUser(),
+    userTables: [],
+    recentTables: [],
+    sharedTables: [],
+    tableID: null,
+    tableData: [
+      [null, 'header 1', 'header 2', 'header 3', 'header 4'],
+      ['row 1', 'info on row 1-header 1', 'info on row 1-header 2', 'info on row 1-header 3', 'info on row 1-header 4'],
+      ['row 2', 'info on row 2-header 1', 'info on row 2-header 2', 'info on row 2-header 3', 'info on row 2-header 4'],
+      ['row 3', 'info on row 3-header 1', 'info on row 3-header 2', 'info on row 3-header 3', 'info on row 3-header 4'],
+      ['row 4', 'info on row 4-header 1', 'info on row 4-header 2', 'info on row 4-header 3', 'info on row 4-header 4'],
+    ],
+  }
 
-    this.state = {
-      username: userData ? userData.username : null,
-      userTables: userData ? userData.userTables : [],
-      recentTables: userData ? userData.recentTables : [],
-      sharedTables: userData ? userData.sharedTables : [],
-      tableID: null,
-      tableData: [
-        [null, 'header 1', 'header 2', 'header 3', 'header 4'],
-        ['row 1', 'info on row 1-header 1', 'info on row 1-header 2', 'info on row 1-header 3', 'info on row 1-header 4'],
-        ['row 2', 'info on row 2-header 1', 'info on row 2-header 2', 'info on row 2-header 3', 'info on row 2-header 4'],
-        ['row 3', 'info on row 3-header 1', 'info on row 3-header 2', 'info on row 3-header 3', 'info on row 3-header 4'],
-        ['row 4', 'info on row 4-header 1', 'info on row 4-header 2', 'info on row 4-header 3', 'info on row 4-header 4'],
-      ],
+  componentDidMount = () => {
+    if (getUser()) {
+      getUserData()
+        .then((userData) => {
+          if (userData.errMsg) return;
+          return this.setState({
+            userTables: userData.userTables,
+            recentTables: userData.recentTables,
+            sharedTables: userData.sharedTables,
+          })
+        })
+    } else {
+      return;
     }
   }
 
@@ -53,13 +64,16 @@ class App extends React.Component {
   }
 
   handleSignupOrLogin = () => {
-    let userData = getUserData()
-    this.setState({
-      username: userData.username,
-      userTables: userData.userTables,
-      recentTables: userData.recentTables,
-      sharedTables: userData.sharedTables,
-    })
+    let username = getUser()
+    getUserData()
+      .then((userData) => {
+        return this.setState({
+          username: username,
+          userTables: userData.userTables,
+          recentTables: userData.recentTables,
+          sharedTables: userData.sharedTables,
+        })
+      })
   }
 
   createTableUpdate = (data) => {
@@ -68,7 +82,8 @@ class App extends React.Component {
     this.setState({
       tableID: data.tableID,
       tableData: data.tableData,
-      userTables: userTablesCopy
+      userTables: userTablesCopy,
+      recentTables: data.recentTables
     })
   }
 
@@ -89,7 +104,7 @@ class App extends React.Component {
           }} />
           <Route path="/tables" render={(props) => {
             return (
-              getUserData() ?
+              getUser() ?
                 <TablesPage userTables={this.state.userTables} recentTables={this.state.userTables} sharedTables={this.state.sharedTables} /> :
                 <Redirect to={{
                   pathname: '/login',
@@ -99,7 +114,7 @@ class App extends React.Component {
           }} />
           <Route path="/createtable" render={(props) => {
             return (
-              getUserData() ?
+              getUser() ?
                 <CreateTablePage {...props} createTableUpdate={this.createTableUpdate} /> :
                 <Redirect to={{
                   pathname: '/login',

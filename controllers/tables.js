@@ -23,11 +23,12 @@ function createTable(req, res, next) {
                   user.userTables.push(table._id)
                   user.updateRecent('u' + (user.userTables.length - 1), () => {
                     return user.save()
-                      .then(() => {
+                      .then((user) => {
                         return res.json({
                           tableID: table._id,
                           tableData: JSON.parse(table.tableData),
-                          tableName: table.tableName
+                          tableName: table.tableName,
+                          recentTables: user.recentTables
                         })
                       })
                   })

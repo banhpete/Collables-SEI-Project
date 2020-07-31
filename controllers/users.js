@@ -14,21 +14,19 @@ function createUser(req, res, next) {
   User.create(req.body)
     .then(
       (user) => {
-        console.log(user)
         const token = createJWT(user)
         res.json({ token })
       }
     )
     .catch(
       (err) => {
-        console.log(err)
         res.status(400).json(err)
       }
     )
 }
 
 function loginUser(req, res, next) {
-  User.findOne({ username: req.body.username }).populate('userTables', 'tableName').populate('sharedTables', 'tableName')
+  User.findOne({ username: req.body.username }).select("-userTables").select("-sharedTables").select("-recentTables")
     .then((user) => {
       user.comparePassword(req.body.password, (err, isMatch) => {
         if (isMatch) {
@@ -44,4 +42,14 @@ function loginUser(req, res, next) {
     })
 }
 
-module.exports = { createUser, loginUser }
+function getUserData(req, res, next) {
+  console.log('hi')
+  User.findOne({ username: req.user.username }).populate('userTables', 'tableName').populate('sharedTables', 'tableName')
+    .then((user) => {
+      if (!user) return res.status(401).json({ errMsg: 'Username not found' })
+      return res.json(user)
+    })
+}
+
+
+module.exports = { createUser, loginUser, getUserData }
