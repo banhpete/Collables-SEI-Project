@@ -102,7 +102,21 @@ class App extends React.Component {
       tableData: tableData,
       rowOrder: this.getOrder(tableData),
       colOrder: this.getOrder(tableData[0])
-    }, () => this.props.history.push('/table/' + this.state.tableID))
+    })
+  }
+
+  setRowOrder = (newRowOrder) => {
+    console.log('this is in the app')
+    this.setState({
+      rowOrder: newRowOrder
+    })
+  }
+
+  setColOrder = (newColOrder) => {
+    console.log('this is in the app')
+    this.setState({
+      colOrder: newColOrder
+    })
   }
 
   render() {
@@ -133,7 +147,8 @@ class App extends React.Component {
           <Route exact path="/table/:tableID" render={(props) => {
             return (
               getUser() ?
-                <TablePage {...props} data={this.state.tableData} setTableData={this.setTableData} tableName={this.state.tableName} colOrder={this.state.colOrder} rowOrder={this.state.rowOrder} /> :
+                <TablePage {...props} data={this.state.tableData} setTableData={this.setTableData} tableName={this.state.tableName}
+                  colOrder={this.state.colOrder} rowOrder={this.state.rowOrder} setColOrder={this.setColOrder} setRowOrder={this.setRowOrder} /> :
                 <Redirect to={{
                   pathname: '/login',
                   state: { errMsg: "Try logging in first maybe..." }

@@ -1,6 +1,5 @@
 import React from 'react'
 import './TablesPage.css'
-import { getTableData } from '../../utils/tableServices'
 
 class TablesPage extends React.Component {
   state = {
@@ -8,9 +7,7 @@ class TablesPage extends React.Component {
   }
 
   handleCardClick = (idx) => {
-    getTableData(idx).then((data) => {
-      this.props.setTableData(data)
-    })
+    this.props.history.push('/table/' + idx)
   }
 
   render() {

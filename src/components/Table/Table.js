@@ -1,6 +1,5 @@
 import React from 'react'
 import './Table.css';
-import { getTableData } from '../../utils/tableServices'
 
 class Table extends React.Component {
   // Get Order Of An Array 
@@ -15,8 +14,6 @@ class Table extends React.Component {
   }
 
   state = {
-    rowOrder: this.getOrder(this.props.data),
-    colOrder: this.getOrder(this.props.data[0]),
     userSelect: false,
     columnSelected: null,
     rowSelected: null,
@@ -72,26 +69,24 @@ class Table extends React.Component {
     let selectedCol = parseInt(this.state.columnSelected)
     let shiftingCol = parseInt(e.target.getAttribute('index'))
     if (isNaN(shiftingCol)) return
-    let arrCopy = [...this.state.colOrder]
+    let arrCopy = [...this.props.colOrder]
     arrCopy = arrCopy.map((col, idx) => {
-      if (idx === selectedCol) return this.state.colOrder[shiftingCol]
-      if (this.state.colOrder[selectedCol] < this.state.colOrder[shiftingCol]) {
-        if (this.state.colOrder[idx] > this.state.colOrder[selectedCol] && this.state.colOrder[idx] <= this.state.colOrder[shiftingCol]) {
+      if (idx === selectedCol) return this.props.colOrder[shiftingCol]
+      if (this.props.colOrder[selectedCol] < this.props.colOrder[shiftingCol]) {
+        if (this.props.colOrder[idx] > this.props.colOrder[selectedCol] && this.props.colOrder[idx] <= this.props.colOrder[shiftingCol]) {
           return --arrCopy[idx]
         } else {
           return arrCopy[idx]
         }
       } else {
-        if (this.state.colOrder[idx] < this.state.colOrder[selectedCol] && this.state.colOrder[idx] >= this.state.colOrder[shiftingCol]) {
+        if (this.props.colOrder[idx] < this.props.colOrder[selectedCol] && this.props.colOrder[idx] >= this.props.colOrder[shiftingCol]) {
           return ++arrCopy[idx]
         } else {
           return arrCopy[idx]
         }
       }
     })
-    this.setState({
-      colOrder: arrCopy
-    })
+    this.props.setColOrder(arrCopy)
   }
 
   // Handle Row Being Dragged
@@ -139,26 +134,24 @@ class Table extends React.Component {
     let shiftingRow = parseInt(e.target.getAttribute('index'))
     console.log('selectedrow', selectedRow)
     console.log('shiftingrow', shiftingRow)
-    let arrCopy = [...this.state.rowOrder]
+    let arrCopy = [...this.props.rowOrder]
     arrCopy = arrCopy.map((row, idx) => {
-      if (idx === selectedRow) return this.state.rowOrder[shiftingRow]
-      if (this.state.rowOrder[selectedRow] < this.state.rowOrder[shiftingRow]) {
-        if (this.state.rowOrder[idx] > this.state.rowOrder[selectedRow] && this.state.rowOrder[idx] <= this.state.rowOrder[shiftingRow]) {
+      if (idx === selectedRow) return this.props.rowOrder[shiftingRow]
+      if (this.props.rowOrder[selectedRow] < this.props.rowOrder[shiftingRow]) {
+        if (this.props.rowOrder[idx] > this.props.rowOrder[selectedRow] && this.props.rowOrder[idx] <= this.props.rowOrder[shiftingRow]) {
           return --row
         } else {
           return row
         }
       } else {
-        if (this.state.rowOrder[idx] < this.state.rowOrder[selectedRow] && this.state.rowOrder[idx] >= this.state.rowOrder[shiftingRow]) {
+        if (this.props.rowOrder[idx] < this.props.rowOrder[selectedRow] && this.props.rowOrder[idx] >= this.props.rowOrder[shiftingRow]) {
           return ++row
         } else {
           return row
         }
       }
     })
-    this.setState({
-      rowOrder: arrCopy
-    })
+    this.props.setRowOrder(arrCopy)
   }
 
   render() {
@@ -174,7 +167,7 @@ class Table extends React.Component {
           <div
             key={header}
             index={idx}
-            style={this.state.columnSelected == idx ? { order: this.state.colOrder[idx], ...cellStyle } : { order: this.state.colOrder[idx] }}
+            style={this.state.columnSelected == idx ? { order: this.props.colOrder[idx], ...cellStyle } : { order: this.props.colOrder[idx] }}
             className={this.state.userSelect && (this.state.columnSelected == idx) ? 'selected' : ''}
             onMouseDown={this.handleMouseDownCol}
             onMouseEnter={this.state.userSelect && this.state.columnSelected && (idx != this.state.columnSelected) ? (e) => { this.handeMouseEnterCol(e) } : null}>
@@ -189,7 +182,7 @@ class Table extends React.Component {
         <div
           key={row[0]}
           index={rowidx}
-          style={{ order: this.state.rowOrder[rowidx] }}
+          style={{ order: this.props.rowOrder[rowidx] }}
           className="collable-row"
           onMouseEnter={this.state.userSelect && this.state.rowSelected && (rowidx != this.state.rowSelected) ? (e) => { this.handeMouseEnterRow(e) } : null}>
           {row.map((cell, idx) => {
@@ -198,7 +191,7 @@ class Table extends React.Component {
                 key={rowidx.toString() + '-' + idx.toString()}
                 index={rowidx}
                 style={(this.state.userSelect && (this.state.columnSelected == idx)) || (this.state.userSelect && (this.state.rowSelected == rowidx)) ?
-                  { order: this.state.colOrder[idx], ...cellStyle } : { order: this.state.colOrder[idx] }}
+                  { order: this.props.colOrder[idx], ...cellStyle } : { order: this.props.colOrder[idx] }}
                 className={this.state.userSelect && (this.state.columnSelected == idx || this.state.rowSelected == rowidx) ? 'selected' : ''}
                 onMouseDown={idx == 0 ? this.handleMouseDownRow : null}>
                 <p>{cell}</p>
@@ -210,7 +203,7 @@ class Table extends React.Component {
     return (
       <div
         className={"collable" + (this.state.userSelect ? " noselect" : "")}
-        style={{ width: this.state.colOrder.length * 300 }}>
+        style={{ width: this.props.colOrder.length * 300 }}>
         {tableheaders}
         {tablerows}
       </div>
