@@ -2,6 +2,8 @@ const Table = require('../models/table')
 const User = require('../models/user')
 const { google } = require('googleapis')
 
+console.log(process.env.GOOGLE_PRIVATE_KEY);
+
 function createTable(req, res, next) {
   client.authorize(function (err, tokens) {
     if (err) {
