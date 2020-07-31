@@ -1,7 +1,7 @@
 .Table-Page-Container{
   flex-grow:1;
   display:flex;
-  flex-direction:column;
+  flex-direction:row;
   justify-content: center;
   align-items:center;
   background:var(--background-color);
@@ -11,19 +11,68 @@
   background:white;
   border-radius:4px;
   box-shadow: var(--shadow);
-  width:1200px;
+  width:1100px;
   height:80vh;
   overflow:scroll;
 }
 
-.Table-Page-Main>h2{
+.Table-Page-Secondary{
+  background:white;
+  border-radius:4px;
+  margin-left:20px;
+  box-shadow: var(--shadow);
+  width:100px;
+  height:80vh;
+  display:flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: center;
+  padding:20px;
+}
+
+.Table-Page-Secondary-Row{
+position:relative;
+}
+
+.Table-Page-Secondary-Row>i{
+  position:relative;
+}
+
+.Table-Page-Secondary-Row>i:hover{
+  cursor:pointer;
+  color:red;
+}
+
+.shareMenu{
+  position:absolute;
+  top:0px;
+  left:30px;
+  width:200px;
+  background:rgb(209, 209, 209);
+  box-shadow: var(--shadow);
+  padding:10px;
+}
+
+.shareMenu .row {
+  margin-top:15px;
+}
+
+.shareMenu p{
+  margin:0px 0px;
+}
+
+.Table-Page-Main-Header{
   position:fixed;
   background:white;
   margin:0px;
-  width:1182px;
+  width:1083px;
   z-index:1;
   padding: 5px 0px 5px 10px;
   text-decoration: underline;
+}
+
+.Table-Page-Main-Header>h2{
+  margin:0px;
 }
 
 @media only screen and (max-width: 1411px){
@@ -31,7 +80,13 @@
     width:85%;
   }
 
-  .Table-Page-Main>h2{
-    width: calc(85% - 18px);
+  .Table-Page-Main-Header{
+    width: calc(81% - 17px);
   }
+}
+
+.Form-Error{
+  color:red;
+  margin:5px 10px;
+  padding:0px;
 }

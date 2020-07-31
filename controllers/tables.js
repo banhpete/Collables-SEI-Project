@@ -93,4 +93,16 @@ function getTableData(req, res, next) {
     })
 }
 
-module.exports = { createTable, getTableData }
+function shareTable(req, res, next) {
+  User.findOne({ username: req.body.username })
+    .then((user) => {
+      if (!user) return res.status(400).json({ errMsg: "Invalid username" })
+      user.sharedTables.push(req.body.tableID)
+      user.save()
+        .then((user) => {
+          res.json({ msg: "Complete" })
+        })
+    })
+}
+
+module.exports = { createTable, getTableData, shareTable }

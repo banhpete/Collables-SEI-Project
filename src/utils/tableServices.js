@@ -42,4 +42,29 @@ function getTableData(id) {
     })
 }
 
-export { createTable, getTableData }
+function shareTable(tableID, username, tableName) {
+  return fetch(
+    BASE_URL + '/share',
+    {
+      method: 'POST',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + getToken()
+      }),
+      body: JSON.stringify({
+        tableID: tableID,
+        username: username,
+        tableName: tableName
+      })
+    }
+  )
+    .then((res) => {
+      return res.json()
+    })
+    .then((data) => {
+      if (data.errMsg) throw data.errMsg
+      return data
+    })
+}
+
+export { createTable, getTableData, shareTable }

@@ -8,6 +8,7 @@ class CreateTablePage extends React.Component {
     ssURL: "",
     sheetName: "",
     dataRange: "",
+    tableColor: "",
     errMsg: ""
   }
 
@@ -23,7 +24,7 @@ class CreateTablePage extends React.Component {
         this.props.createTableUpdate(data)
         this.props.history.push('/')
       })
-      .catch((err) => { this.setState({ errMsg: err }) })
+      .catch((err) => { console.log(err) })
   }
 
   handleChange = (e) => {
@@ -77,6 +78,10 @@ class CreateTablePage extends React.Component {
           <div className="Create-Table-Form-Row">
             <label>Range of Data in Google Spreadsheet (i.e. A1:F10):</label>
             <input name="dataRange" type="text" value={this.state.dataRange} onChange={this.handleChange} />
+          </div>
+          <div className="Create-Table-Form-Row">
+            <label>Select a color for your Table</label>
+            <input name="tableColor" type="color" value={this.state.tableColor} onChange={this.handleChange} />
           </div>
           <div className="Create-Table-Btn-Row">
             <input className="btn" type="submit" value="Create Your Collable" />

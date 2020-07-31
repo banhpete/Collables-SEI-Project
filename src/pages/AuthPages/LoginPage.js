@@ -47,11 +47,11 @@ class LoginPage extends React.Component {
           {errMsg}
           <div className="Auth-Page-Formrow">
             <label htmlFor="username">Username</label>
-            <input name="username" id="username" type="text" onChange={this.handleChange}></input>
+            <input name="username" id="username" type="text" value={this.state.username} onChange={this.handleChange}></input>
           </div>
           <div className="Auth-Page-Formrow">
             <label htmlFor="password">Password</label>
-            <input name="password" id="password" type="password" onChange={this.handleChange}></input>
+            <input name="password" id="password" type="password" value={this.state.password} onChange={this.handleChange}></input>
           </div>
           <input className="btn" type="submit" value="Login"></input>
         </form>
