@@ -3,6 +3,7 @@ import './App.css';
 import SignUpPage from '../AuthPages/SignUpPage'
 import LoginPage from '../AuthPages/LoginPage'
 import TablesPage from '../TablesPage/TablesPage'
+import TablePage from '../TablePage/TablePage'
 import CreateTablePage from '../CreateTablePage/CreateTablePage'
 import HomePage from '../HomePage/HomePage'
 import Header from '../../components/Header/Header'
@@ -102,10 +103,20 @@ class App extends React.Component {
               <LoginPage {...props} handleSignupOrLogin={this.handleSignupOrLogin} />
             )
           }} />
-          <Route path="/tables" render={(props) => {
+          <Route exact path="/tables" render={(props) => {
             return (
               getUser() ?
-                <TablesPage userTables={this.state.userTables} recentTables={this.state.userTables} sharedTables={this.state.sharedTables} /> :
+                <TablesPage {...props} userTables={this.state.userTables} recentTables={this.state.recentTables} sharedTables={this.state.sharedTables} /> :
+                <Redirect to={{
+                  pathname: '/login',
+                  state: { errMsg: "Try logging in first maybe..." }
+                }} />
+            )
+          }} />
+          <Route exact path="/table/:tableID" render={(props) => {
+            return (
+              getUser() ?
+                <TablePage {...props} data={this.state.tableData} /> :
                 <Redirect to={{
                   pathname: '/login',
                   state: { errMsg: "Try logging in first maybe..." }
@@ -123,7 +134,6 @@ class App extends React.Component {
             )
           }} />
           <Route path="/" render={(props) => (
-
             <HomePage username={this.state.username} />
           )} />
         </Switch>
