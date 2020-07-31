@@ -41,9 +41,7 @@ class App extends React.Component {
   }
 
   getOrder = (arr) => {
-    console.log('getOrder', arr)
     let numOfRows = arr.length;
-    console.log(numOfRows)
     let order = [];
     for (let i = 0; i < numOfRows; i++) {
       order.push(i)
@@ -94,7 +92,6 @@ class App extends React.Component {
   }
 
   setTableData = (data) => {
-    console.log(data)
     let tableData = JSON.parse(data.tableData)
     this.setState({
       tableName: data.tableName,
@@ -106,14 +103,12 @@ class App extends React.Component {
   }
 
   setRowOrder = (newRowOrder) => {
-    console.log('this is in the app')
     this.setState({
       rowOrder: newRowOrder
     })
   }
 
   setColOrder = (newColOrder) => {
-    console.log('this is in the app')
     this.setState({
       colOrder: newColOrder
     })

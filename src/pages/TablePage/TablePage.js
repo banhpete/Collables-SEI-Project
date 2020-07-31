@@ -39,7 +39,6 @@ class TablePage extends React.Component {
         return this.setState({ msg: "Complete" })
       })
       .catch((errMsg) => {
-        console.log(errMsg)
         return this.setState({ errMsg: errMsg })
       })
   }

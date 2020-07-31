@@ -28,7 +28,6 @@ class TablesPage extends React.Component {
       }) :
       <p>No Collables Made</p>
 
-    console.log(this.props.sharedTables)
 
     let sharedTables = this.props.sharedTables[0] ?
       this.props.sharedTables.map((table) => {
