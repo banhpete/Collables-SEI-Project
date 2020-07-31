@@ -17,14 +17,11 @@ class App extends React.Component {
     userTables: [],
     recentTables: [],
     sharedTables: [],
+    tableName: "",
     tableID: null,
-    tableData: [
-      ['test', 'What do you like about your current website? Please be as detailed as possible.', 'What functions does your website need to have to be valuable to you and your business? They do not need to currently be on your website.2', 'How do you plan to use your website to grow your business moving forward? This will help your mentor(s) identify features that might be useful for your site.2', 'header 4', 'Do you currently have any of the following branding assets for your business? Check all that apply.', "I’m looking for my web design and development mentors to:"],
-      ['row 1', 'info on row 1-header 1', 'I like the format of the home page on desktop and the simplicity of navigating throughout the different pages.', 'info on row 1-header 3', 'info on row 1-header 4', 'info on row 1-header 5', 'info on row 1-header 5'],
-      ['row 2', 'info on row 2-header 1', 'info on row 2-header 2', 'info on row 2-header 3', 'info on row 2-header 4', 'info on row 2-header 5', 'info on row 1-header 5'],
-      ['row 3', '-Individuals can see the services that are available in the clinic -Be higher ranking on google so individuals know the clinic exists -Drive more people to website and in the outcome get more people to come to clinic', 'info on row 3-header 2', 'info on row 3-header 3', 'info on row 3-header 4', 'info on row 3-header 5', 'info on row 1-header 5'],
-      ['row 4', 'info on row 4-header 1', 'info on row 4-header 2', 'I like that is describes the services we provides.', "Improvements would involve customizing cover photo zoom in as there is only 2 settings so if the photo isn't the right size it is too close up most of the time. A more cohesive feel throughout the site that has a branded touch that stands out I find is missing. Many of the elements are basic and also when converting the desktop view to mobile (which is where most people will view from) the mobile is even more generic and could be improved with more formatting flexibility. Improvements can also be made to the product page to showcase different aspects of each product in a branded way.", 'info on row 4-header 5', 'info on row 1-header 5'],
-    ],
+    tableData: [[]],
+    rowOrder: [],
+    colOrder: [],
   }
 
   componentDidMount = () => {
@@ -43,6 +40,17 @@ class App extends React.Component {
     }
   }
 
+  getOrder = (arr) => {
+    console.log('getOrder', arr)
+    let numOfRows = arr.length;
+    console.log(numOfRows)
+    let order = [];
+    for (let i = 0; i < numOfRows; i++) {
+      order.push(i)
+    }
+    return order
+  }
+
   handleLogout = (e) => {
     e.preventDefault();
     logOut();
@@ -52,13 +60,7 @@ class App extends React.Component {
       recentTables: [],
       sharedTables: [],
       tableID: null,
-      tableData: [
-        [null, 'What do you like about your current website? Please be as detailed as possible.', 'How do you plan to use your website to grow your business moving forward? This will help your mentor(s) identify features that might be useful for your site.', 'How do you plan to use your website to grow your business moving forward? This will help your mentor(s) identify features that might be useful for your site.2', 'header 4'],
-        ['row 1', 'info on row 1-header 1', 'info on row 1-header 2', 'info on row 1-header 3', 'info on row 1-header 4'],
-        ['row 2', 'info on row 2-header 1', 'info on row 2-header 2', 'info on row 2-header 3', 'info on row 2-header 4'],
-        ['row 3', 'info on row 3-header 1', 'info on row 3-header 2', 'info on row 3-header 3', 'info on row 3-header 4'],
-        ['row 4', 'info on row 4-header 1', 'info on row 4-header 2', 'info on row 4-header 3', 'info on row 4-header 4'],
-      ],
+      tableData: [[]],
     }, () => {
       return this.props.history.push('/')
     })
@@ -81,11 +83,26 @@ class App extends React.Component {
     let userTablesCopy = [...this.state.userTables]
     userTablesCopy.push({ _id: data.tableID, tableName: data.tableName })
     this.setState({
+      tableName: data.tableName,
       tableID: data.tableID,
       tableData: data.tableData,
       userTables: userTablesCopy,
-      recentTables: data.recentTables
-    })
+      recentTables: data.recentTables,
+      rowOrder: this.getOrder(data.tableData),
+      colOrder: this.getOrder(data.tableData[0])
+    }, () => this.props.history.push('/table/' + this.state.tableID))
+  }
+
+  setTableData = (data) => {
+    console.log(data)
+    let tableData = JSON.parse(data.tableData)
+    this.setState({
+      tableName: data.tableName,
+      tableID: data._id,
+      tableData: tableData,
+      rowOrder: this.getOrder(tableData),
+      colOrder: this.getOrder(tableData[0])
+    }, () => this.props.history.push('/table/' + this.state.tableID))
   }
 
   render() {
@@ -106,7 +123,7 @@ class App extends React.Component {
           <Route exact path="/tables" render={(props) => {
             return (
               getUser() ?
-                <TablesPage {...props} userTables={this.state.userTables} recentTables={this.state.recentTables} sharedTables={this.state.sharedTables} /> :
+                <TablesPage {...props} userTables={this.state.userTables} recentTables={this.state.recentTables} sharedTables={this.state.sharedTables} setTableData={this.setTableData} /> :
                 <Redirect to={{
                   pathname: '/login',
                   state: { errMsg: "Try logging in first maybe..." }
@@ -116,7 +133,7 @@ class App extends React.Component {
           <Route exact path="/table/:tableID" render={(props) => {
             return (
               getUser() ?
-                <TablePage {...props} data={this.state.tableData} /> :
+                <TablePage {...props} data={this.state.tableData} setTableData={this.setTableData} tableName={this.state.tableName} colOrder={this.state.colOrder} rowOrder={this.state.rowOrder} /> :
                 <Redirect to={{
                   pathname: '/login',
                   state: { errMsg: "Try logging in first maybe..." }

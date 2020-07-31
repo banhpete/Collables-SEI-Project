@@ -1,9 +1,11 @@
 import React from 'react'
 import './Table.css';
+import { getTableData } from '../../utils/tableServices'
 
 class Table extends React.Component {
   // Get Order Of An Array 
   getOrder = (arr) => {
+    console.log(arr)
     let numOfRows = arr.length;
     let order = [];
     for (let i = 0; i < numOfRows; i++) {
@@ -15,7 +17,6 @@ class Table extends React.Component {
   state = {
     rowOrder: this.getOrder(this.props.data),
     colOrder: this.getOrder(this.props.data[0]),
-    colWidth: this.getOrder(this.props.data[0]),
     userSelect: false,
     columnSelected: null,
     rowSelected: null,
@@ -23,7 +24,6 @@ class Table extends React.Component {
     user_y: 0,
     offset_x: 0,
     offset_y: 0,
-    tableWidth: 0,
     loading: true
   }
 
@@ -172,16 +172,6 @@ class Table extends React.Component {
         if (idx === 0) return <div key="empty">{header}</div>
         return (
           <div
-            ref={el => {
-              if (!el) return;
-              if (el.getBoundingClientRect().width > this.state.colWidth[idx]) {
-                let arrCopy = [...this.state.colWidth]
-                arrCopy[idx] = el.getBoundingClientRect().width
-                this.setState({
-                  colWidth: arrCopy
-                })
-              }
-            }}
             key={header}
             index={idx}
             style={this.state.columnSelected == idx ? { order: this.state.colOrder[idx], ...cellStyle } : { order: this.state.colOrder[idx] }}
@@ -205,16 +195,6 @@ class Table extends React.Component {
           {row.map((cell, idx) => {
             return (
               <div
-                ref={el => {
-                  if (!el) return;
-                  if (el.getBoundingClientRect().width > this.state.colWidth[idx]) {
-                    let arrCopy = [...this.state.colWidth]
-                    arrCopy[idx] = el.getBoundingClientRect().width
-                    this.setState({
-                      colWidth: arrCopy
-                    })
-                  }
-                }}
                 key={rowidx.toString() + '-' + idx.toString()}
                 index={rowidx}
                 style={(this.state.userSelect && (this.state.columnSelected == idx)) || (this.state.userSelect && (this.state.rowSelected == rowidx)) ?

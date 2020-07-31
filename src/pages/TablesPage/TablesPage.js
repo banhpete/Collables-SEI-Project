@@ -1,5 +1,6 @@
 import React from 'react'
 import './TablesPage.css'
+import { getTableData } from '../../utils/tableServices'
 
 class TablesPage extends React.Component {
   state = {
@@ -7,11 +8,13 @@ class TablesPage extends React.Component {
   }
 
   handleCardClick = (idx) => {
-    this.props.history.push('/table/idx')
+    getTableData(idx).then((data) => {
+      this.props.setTableData(data)
+    })
   }
 
   render() {
-    let recentTables = this.props.recentTables ?
+    let recentTables = this.props.recentTables[0] ?
       this.props.recentTables.map((tableIdx) => {
         let table = tableIdx[0] === 'u' ? this.props.userTables[tableIdx[1]] : this.props.sharedTables[tableIdx[1]]
         return (
@@ -20,7 +23,7 @@ class TablesPage extends React.Component {
       }) :
       <p>No Collables Recently Viewed</p>
 
-    let userTables = this.props.userTables ?
+    let userTables = this.props.userTables[0] ?
       this.props.userTables.map((table) => {
         return (
           <div key={table._id} className="Tables-Page-Card" onClick={() => this.handleCardClick(table._id)}>{table.tableName}</div>
@@ -28,7 +31,9 @@ class TablesPage extends React.Component {
       }) :
       <p>No Collables Made</p>
 
-    let sharedTables = this.props.sharedTables ?
+    console.log(this.props.sharedTables)
+
+    let sharedTables = this.props.sharedTables[0] ?
       this.props.sharedTables.map((table) => {
         return (
           <div key={table._id} className="Tables-Page-Card" onClick={() => this.handleCardClick(table._id)}>{table.tableName}</div>

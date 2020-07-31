@@ -81,4 +81,16 @@ async function gsrun(cl, ssID, range) {
 
 }
 
-module.exports = { createTable }
+function getTableData(req, res, next) {
+  User.findOne({ $and: [{ username: req.user.username }, { $or: [{ sharedTables: req.params.id }, { userTables: req.params.id }] }] })
+    .then((user) => {
+      if (!user) return res.status(400).json({ errMsg: "Table ID does not exist or User does not have access" })
+      Table.findById(req.params.id).then((table) => {
+        res.json(table)
+      })
+    }).catch(() => {
+      return res.status(400).json({ errMsg: "Table ID does not exist or User does not have access" })
+    })
+}
+
+module.exports = { createTable, getTableData }
