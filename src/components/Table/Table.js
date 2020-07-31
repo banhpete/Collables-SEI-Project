@@ -15,6 +15,7 @@ class Table extends React.Component {
   state = {
     rowOrder: this.getOrder(this.props.data),
     colOrder: this.getOrder(this.props.data[0]),
+    colWidth: this.getOrder(this.props.data[0]),
     userSelect: false,
     columnSelected: null,
     rowSelected: null,
@@ -22,6 +23,8 @@ class Table extends React.Component {
     user_y: 0,
     offset_x: 0,
     offset_y: 0,
+    tableWidth: 0,
+    loading: true
   }
 
   // Handle Column Being Dragged
@@ -40,7 +43,7 @@ class Table extends React.Component {
     const updatePosition = (e) => {
       this.setState({
         user_x: e.x - this.state.offset_x + 5,
-        user_y: e.y - this.state.offset_y,
+        user_y: e.y - this.state.offset_y + 5,
       })
     }
 
@@ -68,6 +71,7 @@ class Table extends React.Component {
     })
     let selectedCol = parseInt(this.state.columnSelected)
     let shiftingCol = parseInt(e.target.getAttribute('index'))
+    if (isNaN(shiftingCol)) return
     let arrCopy = [...this.state.colOrder]
     arrCopy = arrCopy.map((col, idx) => {
       if (idx === selectedCol) return this.state.colOrder[shiftingCol]
@@ -104,7 +108,7 @@ class Table extends React.Component {
     // Event Handler Functions
     const updatePosition = (e) => {
       this.setState({
-        user_x: e.x - this.state.offset_x,
+        user_x: e.x - this.state.offset_x + 5,
         user_y: e.y - this.state.offset_y + 5,
       })
     }
@@ -123,8 +127,9 @@ class Table extends React.Component {
     window.addEventListener('mouseup', removeMovement)
   }
 
-  // Handle Column Swap
+  // Handle Row Swap
   handeMouseEnterRow = (e) => {
+    console.log('Row Swap')
     var rect = e.target.getBoundingClientRect();
     this.setState({
       offset_x: rect.left,
@@ -132,6 +137,8 @@ class Table extends React.Component {
     })
     let selectedRow = parseInt(this.state.rowSelected)
     let shiftingRow = parseInt(e.target.getAttribute('index'))
+    console.log('selectedrow', selectedRow)
+    console.log('shiftingrow', shiftingRow)
     let arrCopy = [...this.state.rowOrder]
     arrCopy = arrCopy.map((row, idx) => {
       if (idx === selectedRow) return this.state.rowOrder[shiftingRow]
@@ -155,24 +162,36 @@ class Table extends React.Component {
   }
 
   render() {
+
     let cellStyle = {
       transform: `translate(${this.state.user_x}px, ${this.state.user_y}px)`
     }
 
-    let tableheaders = <div key="header" className="collable-row">{this.props.data[0].map((header, idx) => {
-      if (!header) return <div key="empty"></div>
-      return (
-        <div
-          key={header}
-          index={idx}
-          style={(this.state.columnSelected == idx ? { order: this.state.colOrder[idx], ...cellStyle } : { order: this.state.colOrder[idx] })}
-          className={this.state.userSelect && (this.state.columnSelected == idx) ? 'selected' : ''}
-          onMouseDown={this.handleMouseDownCol}
-          onMouseEnter={this.state.userSelect && (idx != this.state.columnSelected) ? (e) => { this.handeMouseEnterCol(e) } : null}>
-          {header}
-        </div>)
-    })
-    }</div>
+    let tableheaders = <div key="header" className="collable-row">
+      {this.props.data[0].map((header, idx) => {
+        if (!header) return <div key="empty"></div>
+        return (
+          <div
+            ref={el => {
+              if (!el) return;
+              if (el.getBoundingClientRect().width > this.state.colWidth[idx]) {
+                let arrCopy = [...this.state.colWidth]
+                arrCopy[idx] = el.getBoundingClientRect().width
+                this.setState({
+                  colWidth: arrCopy
+                })
+              }
+            }}
+            key={header}
+            index={idx}
+            style={this.state.columnSelected == idx ? { order: this.state.colOrder[idx], ...cellStyle } : { order: this.state.colOrder[idx] }}
+            className={this.state.userSelect && (this.state.columnSelected == idx) ? 'selected' : ''}
+            onMouseDown={this.handleMouseDownCol}
+            onMouseEnter={this.state.userSelect && this.state.columnSelected && (idx != this.state.columnSelected) ? (e) => { this.handeMouseEnterCol(e) } : null}>
+            <p>{header}</p>
+          </div>)
+      })
+      }</div>
 
     let tablerows = this.props.data.map((row, rowidx) => {
       if (rowidx === 0) return null
@@ -180,26 +199,38 @@ class Table extends React.Component {
         <div
           key={row[0]}
           index={rowidx}
-          className="collable-row"
           style={{ order: this.state.rowOrder[rowidx] }}
-          onMouseEnter={this.state.userSelect && (rowidx != this.state.rowSelected) ? (e) => { this.handeMouseEnterRow(e) } : null}>
+          className="collable-row"
+          onMouseEnter={this.state.userSelect && this.state.rowSelected && (rowidx != this.state.rowSelected) ? (e) => { this.handeMouseEnterRow(e) } : null}>
           {row.map((cell, idx) => {
             return (
               <div
-                key={cell}
+                ref={el => {
+                  if (!el) return;
+                  if (el.getBoundingClientRect().width > this.state.colWidth[idx]) {
+                    let arrCopy = [...this.state.colWidth]
+                    arrCopy[idx] = el.getBoundingClientRect().width
+                    this.setState({
+                      colWidth: arrCopy
+                    })
+                  }
+                }}
+                key={rowidx.toString() + '-' + idx.toString()}
                 index={rowidx}
                 style={(this.state.userSelect && (this.state.columnSelected == idx)) || (this.state.userSelect && (this.state.rowSelected == rowidx)) ?
                   { order: this.state.colOrder[idx], ...cellStyle } : { order: this.state.colOrder[idx] }}
                 className={this.state.userSelect && (this.state.columnSelected == idx || this.state.rowSelected == rowidx) ? 'selected' : ''}
                 onMouseDown={idx == 0 ? this.handleMouseDownRow : null}>
-                {cell}
+                <p>{cell}</p>
               </div>)
           })}
         </div>)
     })
 
     return (
-      <div className={"collable" + (this.state.userSelect ? " noselect" : "")}>
+      <div
+        className={"collable" + (this.state.userSelect ? " noselect" : "")}
+        style={{ width: this.state.colOrder.length * 300 }}>
         {tableheaders}
         {tablerows}
       </div>

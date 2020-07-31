@@ -15,7 +15,7 @@ class TablesPage extends React.Component {
       this.props.recentTables.map((tableIdx) => {
         let table = tableIdx[0] === 'u' ? this.props.userTables[tableIdx[1]] : this.props.sharedTables[tableIdx[1]]
         return (
-          <div key="tableIdx" className="Tables-Page-Card" onClick={() => this.handleCardClick(table._id)}>{table.tableName}</div>
+          <div key={tableIdx} className="Tables-Page-Card" onClick={() => this.handleCardClick(table._id)}>{table.tableName}</div>
         )
       }) :
       <p>No Collables Recently Viewed</p>
