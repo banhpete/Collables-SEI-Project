@@ -2,7 +2,8 @@ const Table = require('../models/table')
 const User = require('../models/user')
 const { google } = require('googleapis')
 
-console.log(JSON.parse(`"${process.env.GOOGLE_PRIVATE_KEY}"`))
+const private_key = process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n');
+console.log(private_key)
 
 function createTable(req, res, next) {
   client.authorize(function (err, tokens) {
@@ -52,7 +53,7 @@ function createTable(req, res, next) {
 const client = new google.auth.JWT(
   process.env.GOOGLE_EMAIL,
   null,
-  process.env.GOOGLE_PRIVATE_KEY,
+  private_key,
   ['https://www.googleapis.com/auth/spreadsheets'],
 )
 
