@@ -3,7 +3,6 @@ const User = require('../models/user')
 const { google } = require('googleapis')
 
 const private_key = process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n');
-console.log(private_key)
 
 function createTable(req, res, next) {
   client.authorize(function (err, tokens) {
