@@ -1,68 +1,22 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Collables - General Assembly - SEI Project 2
+![Screenshot 1 of Collable](./README-images/Screenshot.png)
+![Screenshot 2 of Collable](./README-images/Screenshot2.png)
 
-## Available Scripts
+Google spreadsheets is a great tool for teams to collaborate and share tabular data, especially when it is numerical data, or very simple text data. However, when the data consists of longer and more complicated text, a google spreadsheet is no longer a great way to collaborate and share this data unless the table is adjusted manually by a user, and even then, it can still be quite overwhelming to work with. This is the issue that Collables is intended to solve.
 
-In the project directory, you can run:
+Collables is a web application that will provide users an alternative to google spreadsheet when working with tabular text data. It will allow users to import data from a google spreadsheet, and then work with the data on Collables, adding new rows and columns. Additionally, users shall still be able to collabroate, and see changes made to the table real time , but unlike google spreadsheets, users can adjust the table to their liking by moving rows and columns affecting other users views.
 
-### `npm start`
+This application was created for the final project of General Assembly's Software Engineering Immsersive (SEI) Program.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# Technologies Used
+Collables is a web application uses a MERN (MongoDB, Express, React and Node.js) stack. The database is hosted on MongoDB Atlas and the web application is hosted on Heroku.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+# Getting Started
+You can find the web app deployed at Heroku [here](https://collable.herokuapp.com/).
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+# Next Steps
+At it's current state, Collables can only allow users to create custom tables, share them, and adjust their rows and columns - it is still very much in it's early stages. The next steps will include:
+- Optimize table's apperance given some set of data.
+- Allowing users to edit current data. This needs to be real time and therefore websocket must be used.
+- Add new rows and columns. This needs to be real time and therefore websocket must be used.
+- Save current view of the table.
