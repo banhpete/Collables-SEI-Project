@@ -4,8 +4,7 @@
 
 Google spreadsheets is a great tool for teams to collaborate and share tabular data, especially when it is numerical data, or very simple text data. However, when the data consists of longer and more complicated text, a google spreadsheet is no longer a great way to collaborate and share this data unless the table is adjusted manually by a user, and even then, it can still be quite overwhelming to work with. This is the issue that Collables is intended to solve.
 
-Collables is a web application that will provide users an alternative to google spreadsheet when working with tabular text data. It will allow users to import data from a google spreadsheet, and then work with the data on Collables, adding new rows and columns. Additionally, users shall still be able to collabroate, and see changes made to the table real time , but unlike google spreadsheets, users can adjust the table to their liking by moving rows and columns affecting other users views.
-
+Collables is a web application that will provide users an alternative to google spreadsheet when working with tabular text data. It will allow users to import data from a google spreadsheet, and then work with the data on Collables, adding new rows and columns. Additionally, users shall still be able to collabroate, and see changes made to the table real time , but unlike google spreadsheets, users can adjust the table to their liking by moving rows and columns without affecting the view of other users.
 This application was created for the final project of General Assembly's Software Engineering Immsersive (SEI) Program.
 
 # Technologies Used
