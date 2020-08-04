@@ -14,6 +14,9 @@ Collables is a web application uses a MERN (MongoDB, Express, React and Node.js)
 # Getting Started
 You can find the web app deployed at Heroku [here](https://collable.herokuapp.com/).
 
+As the application is still a work in progress, please user the following to login:
+- Username:peboi, password:123
+
 # Next Steps
 At it's current state, Collables can only allow users to create custom tables, share them, and adjust their rows and columns - it is still very much in it's early stages. The next steps will include:
 - Optimize table's apperance given some set of data.
