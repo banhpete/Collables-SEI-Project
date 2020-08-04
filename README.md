@@ -1,4 +1,4 @@
-# Collables - General Assembly - SEI Project 2
+# Collables - General Assembly - SEI Project 4
 ![Screenshot 1 of Collable](./README-images/Screenshot.png)
 ![Screenshot 2 of Collable](./README-images/Screenshot2.png)
 
@@ -20,3 +20,4 @@ At it's current state, Collables can only allow users to create custom tables, s
 - Allowing users to edit current data. This needs to be real time and therefore websocket must be used.
 - Add new rows and columns. This needs to be real time and therefore websocket must be used.
 - Save current view of the table.
+- Implement OAuth so users can upload their own Google Spreadsheets
